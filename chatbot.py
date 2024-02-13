@@ -1,56 +1,6 @@
-# import dotenv
-# import os
-# from langchain_community.document_loaders  import TextLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain_openai import OpenAIEmbeddings
-# from langchain_community.vectorstores import FAISS
-# from langchain_openai import ChatOpenAI
-# from langchain.chains import create_qa_with_sources_chain
-# from langchain.chains import ConversationalRetrievalChain
-# from flask import Flask, request, jsonify
-
-
-# dotenv.load_dotenv()
-
-# app = Flask(__name__)
-# # Step 1
-# raw_documents = TextLoader("./data.txt").load()
-
-# # Step 2
-# text_splitter = RecursiveCharacterTextSplitter(
-#     chunk_size=500, chunk_overlap=20, length_function=len
-# )
-# documents = text_splitter.split_documents(raw_documents)
-
-# # Step 3
-# embeddings_model = OpenAIEmbeddings(openai_api_key="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")
-# db = FAISS.from_documents(documents, embeddings_model)
-
-# # Step 4
-# retriever = db.as_retriever()
-
-# # Step 5
-# llm_src = ChatOpenAI(temperature=0.3, model="gpt-4-turbo-preview", openai_api_key="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")
-# qa_chain = create_qa_with_sources_chain(llm_src)
-# retrieval_qa = ConversationalRetrievalChain.from_llm(
-#     llm_src,
-#     retriever,
-#     return_source_documents=True,
-# )
-
-# # Output
-# output = retrieval_qa({
-#     "question": "What are the portfolio companies?",
-#     "chat_history": []
-# })
-# print(f"Question: {output['question']}")
-# print(f"Answer: {output['answer']}")
-# print(f"Source: {output['source_documents'][0].metadata['source']}")
-
-
-
 from flask import Flask, request, jsonify
-import dotenv
+from flask_cors import CORS  # Import the CORS module
+from dotenv import load_dotenv, find_dotenv
 import os
 from langchain_community.document_loaders  import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -60,9 +10,10 @@ from langchain_openai import ChatOpenAI
 from langchain.chains import create_qa_with_sources_chain
 from langchain.chains import ConversationalRetrievalChain
 
-dotenv.load_dotenv()
+load_dotenv(find_dotenv(), override=True)
 
 app = Flask(__name__)
+CORS(app)  # Initialize CORS with your app instance
 
 # Step 1
 raw_documents = TextLoader("./data.txt").load()
@@ -74,14 +25,14 @@ text_splitter = RecursiveCharacterTextSplitter(
 documents = text_splitter.split_documents(raw_documents)
 
 # Step 3
-embeddings_model = OpenAIEmbeddings(openai_api_key="")
+embeddings_model = OpenAIEmbeddings()
 db = FAISS.from_documents(documents, embeddings_model)
 
 # Step 4
 retriever = db.as_retriever()
 
 # Step 5
-llm_src = ChatOpenAI(temperature=0.3, model="gpt-4-turbo-preview", openai_api_key="")
+llm_src = ChatOpenAI(temperature=0.3, model="gpt-4-turbo-preview")
 qa_chain = create_qa_with_sources_chain(llm_src)
 retrieval_qa = ConversationalRetrievalChain.from_llm(
     llm_src,
@@ -92,16 +43,20 @@ retrieval_qa = ConversationalRetrievalChain.from_llm(
 @app.route('/ask', methods=['POST'])
 def ask():
     data = request.get_json()
+    print("Received data:", data)  
     chat_history = data.get('chat_history', [])
-    question = data.get('question', '')
+    messages = data.get('messages', [])
+    # Find the last user message
+    question = next((message['text'] for message in reversed(messages) if message['role'] == 'user'), '')
 
     output = retrieval_qa({
         "question": question,
         "chat_history": chat_history
     })
 
+    print("OUTPUT DATA:", output['answer'])  
     return jsonify({
-        "answer": output['answer'],
+        "text": output['answer'],
     })
 
 if __name__ == '__main__':
