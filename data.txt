@@ -1,0 +1,156 @@
+========= THE GP PARTNERS =======
+Daniel Portillo
+Co-Founder
+
+Phin Barnes
+Co-Founder
+
+Megan Zengerle
+Chief Operating Officer
+
+Stas Baranov
+Product & Engineering
+
+Beverly Tang
+Operations
+
+Alec Flett
+Product & Engineering
+
+Greg Harezlak
+Talent & Growth
+
+Marcus Gosling
+Product & Engineering
+
+Mikey Wakerly
+Product & Engineering
+
+Kristopher Kostelecky
+Talent & Growth
+
+Josh Hernández
+Talent & Growth
+
+Steven Li
+Product & Engineering
+
+Danny Oliveri
+Go to Market
+
+Jason Lohrentz
+Talent & Growth
+
+Ben Cmejla
+Investments
+
+Anthony Kline
+Investments
+
+Amanda Reed
+Operations
+
+Ross Wiethoff
+Go to Market
+
+Ted Mao
+Product & Engineering
+
+Marie Vail Guercio
+Operations
+
+Justin Rosenthal
+Product & Engineering
+
+Breanna Manore
+Operations
+
+John Dip
+Talent & Growth
+
+David Watson
+Product & Engineering
+
+Nazia Mastan
+Talent & Growth
+
+Tina Tian
+Talent & Growth
+
+Lilian Caylee Wang
+Product & Engineering
+
+Shelly Lipson
+Talent & Growth
+
+========= THE GP PORTFOLIO COMPANIES =======
+
+Below are some of the names of the porfolio companies handled by The GP;
+
+Dandy: A modernized dental lab for digital dentistry
+
+Dynaboard: The first creative tool for development teams
+
+Switchboard: Remote collaboration that’s as good as in person
+
+Aven: A credit card for home equity spending
+
+Finix: Payments infrastructure for software companies
+
+Inflection: An AI-first company redefining human-computer interaction
+
+Momento: A “serverless cache” optimized for cloud computing
+
+PromisePAY: A modern payment processing platform for utilities and government agencies
+
+Sardine: Fraud and compliance infrastructure for crypto and fintech companies
+
+Scribe: An intelligent documentation platform for automated workflows
+
+TurbineOne: AI/ML for the comms-contested battlefield
+
+WorkOS: A set of building blocks for quickly adding enterprise features to your app
+
+Afresh: Helping grocers make smarter decisions throughout their fresh supply chain
+
+Aktivate: A platform for K-12 schools to manage and fund scholastic sports
+
+Aqua: A player-focused community marketplace built for web3 gamers
+
+Audius: A decentralized music streaming platform
+
+Bureau: A risk and fraud intelligence platform for mobile-centric companies
+
+Chainlink: Accelerating smart contract innovation
+
+Chronosphere: A scalable & customizable monitoring solution for cloud-native applications
+
+Coda: A document collaboration platform that brings words, data, and teams together
+
+Curated: A platform that pairs experts with shoppers to find the best products
+
+Garage XYZ: The first community-owned car racing franchise
+
+GetSetUp: An online community to learn new skills and unlock life experiences
+
+Grafana Labs: An open source analytics & monitoring solution for every database
+
+Moonsense: A platform to help online businesses detect sophisticated fraud
+
+Newfront Insurance: Insurance brokerage that simplifies buying for clients & selling for brokers
+
+Nuro: Transforming local commerce through autonomous delivery and logistics
+
+Overflow: A donation platform that helps charities accept stock and crypto
+
+SendOwl: Empowering creators and businesses to sell anything digital, anywhere online
+
+The Public Health Company: Public Health as a Service
+
+Theom: The first security product that detects active data breaches
+
+Tome: A collaborative AI partner
+
+Verta.ai: A complete Machine Learning Operations (MLOps) platform
+
+Wholesail: Daily business operations for all parties in the wholesale supplychain
