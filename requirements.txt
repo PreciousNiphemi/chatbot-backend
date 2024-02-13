@@ -3,3 +3,5 @@ langchain-openai
 faiss-cpu
 langchain
 python-dotenv
+flask
+flask_cors
