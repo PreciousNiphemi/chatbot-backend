@@ -20,7 +20,7 @@ app = Flask(__name__)
 CORS(app)
 
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500, chunk_overlap=20, length_function=len
+    chunk_size=1000, chunk_overlap=20, length_function=len
 )
 embeddings_model = OpenAIEmbeddings()
 
@@ -48,10 +48,10 @@ class CompanyData:
 
 company_data = CompanyData()
 company_data.add_company("gp", "./companies/gp.txt")
-company_data.add_company("pinnacle", "./companies/pinnacle.txt")
-company_data.add_company("hillside", "./companies/hillside.txt")
-company_data.add_company("happy", "./companies/happy.txt")
-company_data.add_company("handyman", "./companies/handyman.txt")
+company_data.add_company("pinnacle", "./companies/new-pinnacle.txt")
+company_data.add_company("hillside", "./companies/new-hillside.txt")
+company_data.add_company("happy", "./companies/new-happy.txt")
+company_data.add_company("handyman", "./companies/new-handyman.txt")
 
 
 @app.route('/ask', methods=['POST'])
