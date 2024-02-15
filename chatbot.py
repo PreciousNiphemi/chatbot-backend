@@ -1,8 +1,8 @@
+import logging
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import the CORS module
+from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
-import os
-from langchain_community.document_loaders  import TextLoader
+from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
@@ -10,51 +10,68 @@ from langchain_openai import ChatOpenAI
 from langchain.chains import create_qa_with_sources_chain
 from langchain.chains import ConversationalRetrievalChain
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 load_dotenv(find_dotenv(), override=True)
 
 app = Flask(__name__)
-CORS(app)  # Initialize CORS with your app instance
+CORS(app)
 
-# Step 1
-raw_documents = TextLoader("./data.txt").load()
-
-# Step 2
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=500, chunk_overlap=20, length_function=len
 )
-documents = text_splitter.split_documents(raw_documents)
-
-# Step 3
 embeddings_model = OpenAIEmbeddings()
-db = FAISS.from_documents(documents, embeddings_model)
 
-# Step 4
-retriever = db.as_retriever()
+class CompanyData:
+    def __init__(self):
+        self.companies = {}
 
-# Step 5
-llm_src = ChatOpenAI(temperature=0.3, model="gpt-4-turbo-preview")
-qa_chain = create_qa_with_sources_chain(llm_src)
-retrieval_qa = ConversationalRetrievalChain.from_llm(
-    llm_src,
-    retriever,
-    return_source_documents=True,
-)
+    def add_company(self, company_id, data_path):
+        logger.info(f"Adding company {company_id} with data from {data_path}")
+        raw_documents = TextLoader(data_path).load()
+        documents = text_splitter.split_documents(raw_documents)
+        db = FAISS.from_documents(documents, embeddings_model)
+        retriever = db.as_retriever()
+        llm_src = ChatOpenAI(temperature=0.3, model="gpt-4-turbo-preview")
+        retrieval_qa = ConversationalRetrievalChain.from_llm(
+            llm_src,
+            retriever,
+            return_source_documents=True,
+        )
+        self.companies[company_id] = retrieval_qa
+
+    def get_company(self, company_id):
+        logger.info(f"Retrieving company {company_id}")
+        return self.companies.get(company_id)
+
+company_data = CompanyData()
+company_data.add_company("gp", "./companies/gp.txt")
+company_data.add_company("pinnacle", "./companies/pinnacle.txt")
+company_data.add_company("hillside", "./companies/hillside.txt")
+company_data.add_company("happy", "./companies/happy.txt")
+company_data.add_company("handyman", "./companies/handyman.txt")
+
 
 @app.route('/ask', methods=['POST'])
 def ask():
     data = request.get_json()
-    print("Received data:", data)  
+    logger.info(f"Received request data: {data}")
+    company_id = data.get('company_id')
+    retrieval_qa = company_data.get_company(company_id)
+    if retrieval_qa is None:
+        logger.error(f"Invalid company ID: {company_id}")
+        return jsonify({"error": "Invalid company ID"}), 400
     chat_history = data.get('chat_history', [])
     messages = data.get('messages', [])
-    # Find the last user message
     question = next((message['text'] for message in reversed(messages) if message['role'] == 'user'), '')
-
+    logger.info(f"Processing question: {question}")
     output = retrieval_qa({
         "question": question,
         "chat_history": chat_history
     })
-
-    print("OUTPUT DATA:", output['answer'])  
+    logger.info(f"Returning answer: {output['answer']}")
     return jsonify({
         "text": output['answer'],
     })
