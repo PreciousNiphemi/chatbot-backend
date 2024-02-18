@@ -151,8 +151,17 @@ company_data.add_company("handyman", "./companies/new-handyman.txt")
 
 @tool
 def check_booking(query: str, company_id:str) -> str:
-     """Returns the link to book an appointment, when asked how to schedule or book an apppointment"""
-     return company_data.appointment_links.get(company_id, "No appointment link found.")
+    """Returns the link to book an appointment, when asked how to schedule or book an appointment"""
+    query = query.lower()
+    booking_phrases = ["book", "appointment", "booking", "schedule appointment", "scheduling appointment"]
+    if any(phrase in query for phrase in booking_phrases):
+        appointment_link = company_data.appointment_links.get(company_id)
+        if appointment_link:
+            return f"You can book an appointment here: {appointment_link}"
+        else:
+            return "No appointment link found."
+    return ""
+
 
     
 @app.route('/ask', methods=['POST'])
